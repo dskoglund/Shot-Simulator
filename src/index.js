@@ -6,7 +6,7 @@ const { Provider } = require('react-redux')
 const store = require('./store')
 const App = require('./app')
 
-window.store = store
+
 // function reducer(state = {}, { type }) {
 //   switch(type){
 //     case 'shootTwo':

@@ -47,7 +47,7 @@ const App = ({ game, currentPlayer, dispatch }) => {
       <button onClick = {() => dispatch(shootTwo(currentPlayer.shooting.topKeyTwo))}>ShootTwo</button>
       <button onClick = {() => dispatch(shootTwo(currentPlayer.shooting.midRightElbowTwo))}>ShootTwo</button>
       <button onClick = {() => dispatch(shootTwo(currentPlayer.shooting.midRightTwo))}>FreeThrowTwo</button>
-      <button onClick = {() => dispatch((shootThree(currentPlayerooting.rightCornerThree)))}>ShootThree</button>
+      <button onClick = {() => dispatch((shootThree(currentPlayer.shooting.rightCornerThree)))}>ShootThree</button>
       <button onClick = {() => dispatch((shootThree(currentPlayer.shooting.leftCornerThree)))}>ShootThree</button>
       <button onClick = {() => dispatch((shootThree(currentPlayer.shooting.topLeftThree)))}>ShootThree</button>
       <button onClick = {() => dispatch((shootThree(currentPlayer.shooting.topCenterThree)))}>ShootThree</button>

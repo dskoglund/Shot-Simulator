@@ -23051,7 +23051,8 @@
 	    total: 0,
 	    made: 0,
 	    missed: 0,
-	    points: 0
+	    points: 0,
+	    fire: 0
 	  },
 	  currentPlayer: {
 	    id: 1,
@@ -23072,16 +23073,10 @@
 	      midRightTwo: 0.344,
 	      topLeftThree: 0.373,
 	      topCenterThree: 0.394,
-	      topRightThree: 0.349
+	      topRightThree: 0.359
 	    }
 	  }
 	};
-
-	// const madeTwo = function() {
-	//   newState.made += 1
-	//   newState.points += 2
-	// }
-
 
 	function game() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -23097,8 +23092,10 @@
 	      if (result === 'make') {
 	        newState.made += 1;
 	        newState.points += 2;
+	        newState.fire += 1;
 	      } else {
 	        newState.missed += 1;
+	        newState.fire = 0;
 	      }
 	      return newState;
 	    case 'shootThree':
@@ -23107,8 +23104,10 @@
 	      if (result === 'make') {
 	        newState.made += 1;
 	        newState.points += 3;
+	        newState.fire += 1;
 	      } else {
 	        newState.missed += 1;
+	        newState.fire = 0;
 	      }
 	      return newState;
 	    default:
@@ -23178,6 +23177,7 @@
 	    result: result
 	  };
 	}
+	//save hold
 
 	var App = function App(_ref2) {
 	  var game = _ref2.game;
@@ -23277,7 +23277,7 @@
 	    React.createElement(
 	      'button',
 	      { onClick: function onClick() {
-	          return dispatch(shootThree(currentPlayer.shooting.rightCornerThree));
+	          return dispatch(shootThree(currentPlayerooting.rightCornerThree));
 	        } },
 	      'ShootThree'
 	    ),

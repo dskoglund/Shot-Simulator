@@ -1,5 +1,5 @@
 const { createStore, combineReducers } = require('redux')
-let newState
+
 
 const initialState = {
   players: [{
@@ -39,7 +39,7 @@ const initialState = {
 
 
 function game(state = {},  action ) {
-  //let newState
+  let newState
   let result
   console.log(action)
   switch (action.type) {
