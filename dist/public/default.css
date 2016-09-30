@@ -1,0 +1,11 @@
+.body {
+  height: 900px;
+  width: 100%;
+  background-image: url('court.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+#background {
+  height: 900px;
+}
