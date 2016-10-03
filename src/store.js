@@ -47,10 +47,18 @@ function game(state = {},  action ) {
       newState = Object.assign({}, state, { total: state.total += 1 })
       result = action.result
       if (result === 'make') {
+        if(newState.fire === 3){
+            console.log('You are on fire! 10% FG% increase!')
+            console.log(newState.fire)
+            for(var prop in initialState.currentPlayer.shooting){
+              initialState.currentPlayer.shooting[prop] += .1
+            console.log("initialState.currentPlayer.shooting."+ prop + "=" + initialState.currentPlayer.shooting[prop]);
+        }}
         newState.made += 1
         newState.points += 2
-        newState.fire +=1
-      } else {
+        newState.fire += 1
+      }
+       else {
         newState.missed += 1
         newState.fire = 0
       }
@@ -59,6 +67,13 @@ function game(state = {},  action ) {
       newState = Object.assign({}, state, { total: state.total += 1 })
       result = action.result
       if (result === 'make') {
+        if(newState.fire === 3){
+            console.log('You are on fire! 10% FG% increase!')
+            console.log(newState.fire)
+            for(var prop in initialState.currentPlayer.shooting){
+              initialState.currentPlayer.shooting[prop] += .1
+            console.log("initialState.currentPlayer.shooting."+ prop + "=" + initialState.currentPlayer.shooting[prop]);
+        }}
         newState.made += 1
         newState.points += 3
         newState.fire += 1

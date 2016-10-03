@@ -4,7 +4,8 @@ const ReactDOM = require('react-dom');
 const { render } = require('react-dom')
 const { Provider } = require('react-redux')
 const store = require('./store')
-const App = require('./app')
+const Game = require('./app')
+
 
 
 // function reducer(state = {}, { type }) {
@@ -31,7 +32,7 @@ const App = require('./app')
 
 render(
   <Provider store={store}>
-    <App/>
+    <Game/>
   </Provider>,
   document.getElementById('app')
 )
