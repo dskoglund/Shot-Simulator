@@ -92,6 +92,7 @@ function players(state = [], { type }) {
 }
 
 function currentPlayer(state = {}, { type }) {
+
   return state
 
 }
