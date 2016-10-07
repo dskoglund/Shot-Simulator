@@ -23030,7 +23030,8 @@
 	var initialState = {
 	  players: [{
 	    id: 1,
-	    name: 'Kobe Brant(MVP 2007-2008)',
+	    name: 'Kobe Bryant(MVP 2007-2008)',
+	    image: 'Kobe.png',
 	    feildGoalPercent: '45.9%',
 	    pointsPerGame: '28.3 ppg',
 	    shooting: {
@@ -23074,7 +23075,7 @@
 	    id: 3,
 	    name: 'Kevin Durant(MVP 2013-2014)',
 	    feildGoalPercent: '50.3%',
-	    pointPerGame: '32.0 ppg',
+	    pointsPerGame: '32.0 ppg',
 	    shooting: {
 	      rightCornerThree: 0.500,
 	      leftCornerThree: 0.368,
@@ -23160,7 +23161,8 @@
 	    made: 0,
 	    missed: 0,
 	    points: 0,
-	    fire: 0
+	    fire: 0,
+	    leaderboard: []
 	  },
 	  currentPlayer: {
 	    shooting: {}
@@ -23198,6 +23200,25 @@
 
 	  var newState = void 0;
 	  var result = void 0;
+	  var newLeaderboard = void 0;
+
+	  var sound = new Audio('Sound.wav');
+	  sound.play();
+
+	  var gameOver = function gameOver() {
+	    if (state.made + state.missed === 25) {
+	      var user = prompt("Gameover... Enter your name for the LEADERBOARD!!...");
+	      alert('New Game! Are you ready to shoot? Pick a new player, or keep shooting with this one! Take 25 shots by clicking the basketballs on the court below. Each location represents the shooting percentage of your player from their best shooting season!');
+	      var score = newState.points;
+	      newState.leaderboard = state.leaderboard.concat({ user: user, score: score });
+	      newState.total = 0;
+	      newState.missed = 0;
+	      newState.made = 0;
+	      newState.fire = 0;
+	      newState.points = 0;
+	    }
+	  };
+
 	  var madeTwo = function madeTwo() {
 	    newState.made += 1;
 	    newState.points += 2;
@@ -23216,20 +23237,26 @@
 	  switch (action.type) {
 	    case 'shootTwo':
 	      newState = Object.assign({}, state, { total: state.total += 1 });
+
 	      result = action.result;
 	      if (result === 'make') {
 	        madeTwo();
+	        gameOver();
 	      } else {
 	        miss();
+	        gameOver();
 	      }
 	      return newState;
 	    case 'shootThree':
 	      newState = Object.assign({}, state, { total: state.total += 1 });
+
 	      result = action.result;
 	      if (result === 'make') {
 	        madeThree();
+	        gameOver();
 	      } else {
 	        miss();
+	        gameOver();
 	      }
 	      return newState;
 	    default:
@@ -23300,143 +23327,133 @@
 	  var dispatch = _ref2.dispatch;
 
 
+	  var leaders = game.leaderboard.slice().sort(function (a, b) {
+	    return b.score - a.score;
+	  });
+
 	  var backgroundStyle = {
 	    background: "no-repeat",
-	    backgroundImage: "url('court.jpg') ",
+	    backgroundImage: "url('court.jpg')",
 	    backgroundSize: "100% auto"
 	  };
 	  var firstRowStyle = {
-	    marginTop: "15%",
+	    marginTop: "14%",
 	    textAlign: "center"
 	  };
 	  var secondRowStyle = {
-	    marginTop: "15%",
+	    marginTop: "3%",
 	    textAlign: "center"
 	  };
 	  var thirdRowStyle = {
+	    marginTop: "2%",
 	    textAlign: "center"
 	  };
 	  var fourthRowStyle = {
+	    marginTop: "3%",
+	    textAlign: "center"
+	  };
+	  var fifthRowStyle = {
 	    marginTop: "5%",
 	    textAlign: "center"
 	  };
+	  var sixthRowStyle = {
+	    marginTop: "10%",
+	    textAlign: "center"
+	  };
 	  var scoreBoardStyle = {
+	    marginTop: "3%",
 	    backgroundColor: "black",
 	    color: "orange",
 	    fontStyle: "", //digital clock? scoreboard?
+	    borderStyle: "solid",
 	    borderColor: "white", //?
-	    borderWidth: "5px" //?
+	    borderWidth: "10px", //?
+	    textAlign: "center"
 	  };
 
 	  return React.createElement(
 	    'div',
-	    { className: 'game' },
+	    null,
 	    React.createElement(
 	      'div',
-	      { className: 'col-xs-12', style: backgroundStyle },
+	      { className: 'container' },
 	      React.createElement(
 	        'div',
 	        { className: 'row' },
 	        React.createElement(
 	          'div',
-	          { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Left-Corner Three:" + " " + "%" + (currentPlayer.shooting.leftCornerThree * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
-	              return dispatch(shootThree(currentPlayer.shooting.leftCornerThree));
-	            } },
-	          React.createElement(FontAwesome, {
-	            className: 'fa fa-dribbble',
-	            name: 'ball',
-	            size: '4x',
-	            spin: true
-	          })
+	          { className: 'col-xs-4' },
+	          React.createElement(
+	            'ul',
+	            null,
+	            leaders.map(function (person, index) {
+	              return React.createElement(
+	                'li',
+	                { key: index },
+	                person.user + " " + "scored " + person.score + " " + "points"
+	              );
+	            })
+	          )
 	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Mid-Left Two:" + " " + "%" + (currentPlayer.shooting.midLeftTwo * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
-	              return dispatch(shootTwo(currentPlayer.shooting.midLeftTwo));
-	            } },
-	          React.createElement(FontAwesome, {
-	            className: 'fa fa-dribbble',
-	            name: 'ball',
-	            size: '4x',
-	            spin: true
-	          })
-	        ),
-	        React.createElement('div', { className: 'col-xs-1' }),
-	        React.createElement(
-	          'div',
-	          { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Short-Left Two:" + " " + "%" + (currentPlayer.shooting.shortLeftTwo * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
-	              return dispatch(shootTwo(currentPlayer.shooting.shortLeftTwo));
-	            } },
-	          React.createElement(FontAwesome, {
-	            className: 'fa fa-dribbble',
-	            name: 'ball',
-	            size: '4x',
-	            spin: true
-	          })
-	        ),
-	        React.createElement('div', { className: 'col-xs-1' }),
-	        React.createElement(
-	          'div',
-	          { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "In-Paint Two:" + " " + "%" + (currentPlayer.shooting.inPaintTwo * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
-	              return dispatch(shootTwo(currentPlayer.shooting.inPaintTwo));
-	            } },
-	          React.createElement(FontAwesome, {
-	            className: 'fa fa-dribbble',
-	            name: 'ball',
-	            size: '4x',
-	            spin: true
-	          })
-	        ),
-	        React.createElement('div', { className: 'col-xs-1' }),
-	        React.createElement(
-	          'div',
-	          { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Short-Right Two:" + " " + "%" + (currentPlayer.shooting.shortRightTwo * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
-	              return dispatch(shootTwo(currentPlayer.shooting.shortRightTwo));
-	            } },
-	          React.createElement(FontAwesome, {
-	            className: 'fa fa-dribbble',
-	            name: 'ball',
-	            size: '4x',
-	            spin: true
-	          })
-	        ),
-	        React.createElement('div', { className: 'col-xs-1' }),
-	        React.createElement(
-	          'div',
-	          { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Mid Right Two:" + " " + "%" + (currentPlayer.shooting.midRightTwo * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
-	              return dispatch(shootTwo(currentPlayer.shooting.midRightTwo));
-	            } },
-	          React.createElement(FontAwesome, {
-	            className: 'fa fa-dribbble',
-	            name: 'ball',
-	            size: '4x',
-	            spin: true
-	          })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Right-Corner Three:" + " " + "%" + (currentPlayer.shooting.rightCornerThree * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
-	              return dispatch(shootThree(currentPlayer.shooting.rightCornerThree));
-	            } },
-	          React.createElement(FontAwesome, {
-	            className: 'fa fa-dribbble',
-	            name: 'ball',
-	            size: '4x',
-	            spin: true
-	          })
-	        )
-	      ),
+	        React.createElement('div', { className: 'col-xs-4' })
+	      )
+	    ),
+	    React.createElement(
+	      'div',
+	      { className: 'game' },
 	      React.createElement(
 	        'div',
-	        { className: 'row' },
+	        { className: 'col-xs-12', style: backgroundStyle },
 	        React.createElement(
 	          'div',
-	          { className: 'col-md-12' },
-	          React.createElement('div', { className: 'col-xs-2' }),
+	          { className: 'row' },
 	          React.createElement(
 	            'div',
-	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Left-Elbow Two:" + " " + "%" + (currentPlayer.shooting.midLeftElbowTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
-	                return dispatch(shootTwo(currentPlayer.shooting.midLeftElbowTwo));
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Left-Corner Three:" + " " + "%" + (currentPlayer.shooting.leftCornerThree * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
+	                return dispatch(shootThree(currentPlayer.shooting.leftCornerThree));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          ),
+	          React.createElement('div', { className: 'col-xs-4' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "In-Paint Two:" + " " + "%" + (currentPlayer.shooting.inPaintTwo * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
+	                return dispatch(shootTwo(currentPlayer.shooting.inPaintTwo));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          ),
+	          React.createElement('div', { className: 'col-xs-4' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Right-Corner Three:" + " " + "%" + (currentPlayer.shooting.rightCornerThree * 100).toFixed(1), style: firstRowStyle, onClick: function onClick() {
+	                return dispatch(shootThree(currentPlayer.shooting.rightCornerThree));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement('div', { className: 'col-xs-1' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Mid-Left Two:" + " " + "%" + (currentPlayer.shooting.midLeftTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	                return dispatch(shootTwo(currentPlayer.shooting.midLeftTwo));
 	              } },
 	            React.createElement(FontAwesome, {
 	              className: 'fa fa-dribbble',
@@ -23448,7 +23465,93 @@
 	          React.createElement('div', { className: 'col-xs-1' }),
 	          React.createElement(
 	            'div',
-	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Free-Throw Two:" + " " + "%" + (currentPlayer.shooting.freeThrowTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Short-Left Two:" + " " + "%" + (currentPlayer.shooting.shortLeftTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	                return dispatch(shootTwo(currentPlayer.shooting.shortLeftTwo));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          ),
+	          React.createElement('div', { className: 'col-xs-1' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-2', style: scoreBoardStyle },
+	            React.createElement(
+	              'div',
+	              null,
+	              React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                  'h5',
+	                  null,
+	                  'Total Shots:',
+	                  game.total
+	                )
+	              ),
+	              React.createElement(
+	                'h5',
+	                null,
+	                'Total Made: ',
+	                game.made
+	              ),
+	              React.createElement(
+	                'h5',
+	                null,
+	                'Total Missed: ',
+	                game.missed
+	              ),
+	              React.createElement(
+	                'h5',
+	                null,
+	                'Total Points: ',
+	                game.points
+	              ),
+	              React.createElement(
+	                'h5',
+	                null,
+	                'Feild Goal: %',
+	                (game.made / game.total * 100 || 0).toFixed(0)
+	              )
+	            )
+	          ),
+	          React.createElement('div', { className: 'col-xs-1' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Short-Right Two:" + " " + "%" + (currentPlayer.shooting.shortRightTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	                return dispatch(shootTwo(currentPlayer.shooting.shortRightTwo));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          ),
+	          React.createElement('div', { className: 'col-xs-1' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Mid Right Two:" + " " + "%" + (currentPlayer.shooting.midRightTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	                return dispatch(shootTwo(currentPlayer.shooting.midRightTwo));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement('div', { className: 'col-xs-5' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Free-Throw Two:" + " " + "%" + (currentPlayer.shooting.freeThrowTwo * 100).toFixed(1), style: thirdRowStyle, onClick: function onClick() {
 	                return dispatch(shootTwo(currentPlayer.shooting.freeThrowTwo));
 	              } },
 	            React.createElement(FontAwesome, {
@@ -23458,10 +23561,28 @@
 	              spin: true
 	            })
 	          ),
-	          React.createElement('div', { className: 'col-xs-1' }),
+	          React.createElement('div', { className: 'col-xs-5' })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement('div', { className: 'col-xs-2' }),
 	          React.createElement(
 	            'div',
-	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Right-Elbow Two:" + " " + "%" + (currentPlayer.shooting.midRightElbowTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Left-Elbow Two:" + " " + "%" + (currentPlayer.shooting.midLeftElbowTwo * 100).toFixed(1), style: fourthRowStyle, onClick: function onClick() {
+	                return dispatch(shootTwo(currentPlayer.shooting.midLeftElbowTwo));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          ),
+	          React.createElement('div', { className: 'col-xs-4' }),
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Right-Elbow Two:" + " " + "%" + (currentPlayer.shooting.midRightElbowTwo * 100).toFixed(1), style: fourthRowStyle, onClick: function onClick() {
 	                return dispatch(shootTwo(currentPlayer.shooting.midRightElbowTwo));
 	              } },
 	            React.createElement(FontAwesome, {
@@ -23472,17 +23593,14 @@
 	            })
 	          ),
 	          React.createElement('div', { className: 'col-xs-2' })
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
+	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'col-md-12' },
+	          { className: 'row' },
+	          React.createElement('div', { className: 'col-xs-1' }),
 	          React.createElement(
 	            'div',
-	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Top-Left Three:" + " " + "%" + (currentPlayer.shooting.topLeftThree * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Top-Left Three:" + " " + "%" + (currentPlayer.shooting.topLeftThree * 100).toFixed(1), style: fifthRowStyle, onClick: function onClick() {
 	                return dispatch(shootThree(currentPlayer.shooting.topLeftThree));
 	              } },
 	            React.createElement(FontAwesome, {
@@ -23495,7 +23613,8 @@
 	          React.createElement('div', { className: 'col-xs-2' }),
 	          React.createElement(
 	            'div',
-	            { className: 'col-xs-4', 'data-toggle': 'tooltip', title: "Top-Key Two:" + " " + "%" + (currentPlayer.shooting.topKeyTwo * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	            { className: 'col-xs-4', 'data-toggle': 'tooltip', title: "Top-Key Two:" + " " + "%" + (currentPlayer.shooting.topKeyTwo * 100).toFixed(1), style: fifthRowStyle,
+	              onClick: function onClick() {
 	                return dispatch(shootTwo(currentPlayer.shooting.topKeyTwo));
 	              } },
 	            React.createElement(FontAwesome, {
@@ -23508,7 +23627,7 @@
 	          React.createElement('div', { className: 'col-xs-2' }),
 	          React.createElement(
 	            'div',
-	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Top-Right Three:" + " " + "%" + (currentPlayer.shooting.topRightThree * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
+	            { className: 'col-xs-1', 'data-toggle': 'tooltip', title: "Top-Right Three:" + " " + "%" + (currentPlayer.shooting.topRightThree * 100).toFixed(1), style: fifthRowStyle, onClick: function onClick() {
 	                return dispatch(shootThree(currentPlayer.shooting.topRightThree));
 	              } },
 	            React.createElement(FontAwesome, {
@@ -23517,76 +23636,26 @@
 	              size: '4x',
 	              spin: true
 	            })
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'container' },
+	          ),
+	          React.createElement('div', { className: 'col-xs-1' })
+	        ),
 	        React.createElement(
 	          'div',
 	          { className: 'row' },
+	          React.createElement('div', { className: 'col-xs-5' }),
 	          React.createElement(
 	            'div',
-	            { className: 'col-md-12' },
-	            React.createElement('div', { className: 'col-xs-5' }),
-	            React.createElement(
-	              'div',
-	              { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Top-Center Three:" + " " + "%" + (currentPlayer.shooting.topCenterThree * 100).toFixed(1), style: secondRowStyle, onClick: function onClick() {
-	                  return dispatch(shootThree(currentPlayer.shooting.topCenterThree));
-	                } },
-	              React.createElement(FontAwesome, {
-	                className: 'fa fa-dribbble',
-	                name: 'ball',
-	                size: '4x',
-	                spin: true
-	              })
-	            ),
-	            React.createElement('div', { className: 'col-xs-5' })
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'container' },
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement('div', { className: 'col-xs-8' }),
-	          React.createElement(
-	            'div',
-	            { className: 'col-xs-4', style: scoreBoardStyle },
-	            React.createElement(
-	              'h3',
-	              null,
-	              'Total Shots: ',
-	              0 || game.total
-	            ),
-	            React.createElement(
-	              'h3',
-	              null,
-	              'Total Made: ',
-	              game.made
-	            ),
-	            React.createElement(
-	              'h3',
-	              null,
-	              'Total Missed: ',
-	              game.missed
-	            ),
-	            React.createElement(
-	              'h3',
-	              null,
-	              'Total Points: ',
-	              game.points
-	            ),
-	            React.createElement(
-	              'h3',
-	              null,
-	              'Feild Goal: %',
-	              (game.made / game.total * 100 || 0).toFixed(0)
-	            )
-	          )
+	            { className: 'col-xs-2', 'data-toggle': 'tooltip', title: "Top-Center Three:" + " " + "%" + (currentPlayer.shooting.topCenterThree * 100).toFixed(1), style: sixthRowStyle, onClick: function onClick() {
+	                return dispatch(shootThree(currentPlayer.shooting.topCenterThree));
+	              } },
+	            React.createElement(FontAwesome, {
+	              className: 'fa fa-dribbble',
+	              name: 'ball',
+	              size: '4x',
+	              spin: true
+	            })
+	          ),
+	          React.createElement('div', { className: 'col-xs-5' })
 	        )
 	      )
 	    )
@@ -59430,32 +59499,78 @@
 	  };
 	}
 
+	var withReact = {
+	  marginTop: "350px",
+	  backgroundImage: "url({image})",
+	  zIndex: "2"
+	};
+
+	var dropStyle = {
+	  fontSize: "16px"
+	};
+
+	var jumboStyle = {
+	  height: '400px',
+	  marginBottom: '0px',
+	  background: "no-repeat",
+	  backgroundSize: "100%",
+	  backgroundImage: "url(8bit.png)",
+	  backgroundColor: "blue"
+	};
+
 	var Drop = function Drop(_ref2) {
 	  var players = _ref2.players;
+	  var currentPlayer = _ref2.currentPlayer;
 	  var dispatch = _ref2.dispatch;
+
 
 	  return React.createElement(
 	    'div',
-	    { className: 'selectPlayer' },
+	    null,
+	    React.createElement('div', { className: 'jumbotron', style: jumboStyle }),
 	    React.createElement(
-	      'select',
-	      { onChange: function onChange(event) {
-	          var player = players[event.target.value];
-	          dispatch(pickPlayer(player));
-	        } },
+	      'div',
+	      { className: 'row' },
+	      React.createElement('div', { className: 'col-xs-3' }),
 	      React.createElement(
-	        'option',
-	        null,
-	        ' Pick an MVP'
+	        'div',
+	        { className: 'col-xs-2' },
+	        React.createElement(
+	          'h4',
+	          null,
+	          'Pick Here --->'
+	        )
 	      ),
-	      players.map(function (player, index) {
-	        return React.createElement(
-	          'option',
-	          { key: index, value: index },
-	          player.name
-	        );
-	      })
-	    )
+	      React.createElement(
+	        'div',
+	        { className: 'col-xs-2' },
+	        React.createElement(
+	          'div',
+	          { className: 'selectPlayer' },
+	          React.createElement(
+	            'select',
+	            { style: dropStyle, onChange: function onChange(event) {
+	                var player = players[event.target.value];
+	                dispatch(pickPlayer(player));
+	              } },
+	            React.createElement(
+	              'option',
+	              null,
+	              ' Pick a Shooter!'
+	            ),
+	            players.map(function (player, index) {
+	              return React.createElement(
+	                'option',
+	                { key: index, value: index },
+	                player.name
+	              );
+	            })
+	          )
+	        )
+	      ),
+	      React.createElement('div', { className: 'col-xs-5' })
+	    ),
+	    React.createElement('div', null)
 	  );
 	};
 

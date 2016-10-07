@@ -145,7 +145,7 @@ const initialState = {
     missed: 0,
     points: 0,
     fire: 0,
-    leaderboard: []
+    leaderboard:[]
   },
   currentPlayer: {
     shooting: {}

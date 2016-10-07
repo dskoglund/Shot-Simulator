@@ -1,7 +1,5 @@
 const { combineReducers } = require('redux')
 
-
-
 function currentPlayer( state = { shooting: {} }, action ) {
   switch(action.type) {
     case 'PICK_PLAYER':
@@ -16,9 +14,20 @@ function game(state = {},  action ) {
   let result
   let newLeaderboard
 
+  const swishSound = new Audio('Swish+2.wav');
+
+  const missSound = new Audio('Back+Board.wav');
+
+  const gameEndSound = new Audio('cheer2.wav');
+
+
 
   const gameOver = () => {
+    if (state.total === 25){
+      gameEndSound.play()
+    }
     if (state.made + state.missed === 25) {
+
       var user = prompt("Gameover... Enter your name for the LEADERBOARD!!...")
       alert('New Game! Are you ready to shoot? Pick a new player, or keep shooting with this one! Take 25 shots by clicking the basketballs on the court below. Each location represents the shooting percentage of your player from their best shooting season!')
       var score = newState.points
@@ -32,16 +41,19 @@ function game(state = {},  action ) {
   }
 
   const madeTwo = () => {
+    swishSound.play()
     newState.made += 1
     newState.points += 2
     newState.fire += 1
   }
   const madeThree = () => {
+    swishSound.play()
     newState.made += 1
     newState.points += 3
     newState.fire += 1
   }
   const miss = () => {
+    missSound.play()
     newState.missed += 1
     newState.fire = 0
   }
