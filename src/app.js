@@ -50,15 +50,15 @@ const Game = ({ game, currentPlayer, dispatch }) => {
     textAlign: "center"
   }
   const thirdRowStyle = {
-    marginTop: "9%",
+    marginTop: "2%",
     textAlign: "center"
   }
   const fourthRowStyle = {
-    marginTop: "5%",
+    marginTop: "3%",
     textAlign: "center"
   }
   const fifthRowStyle = {
-    marginTop: "0%",
+    marginTop: "5%",
     textAlign: "center"
   }
   const sixthRowStyle = {
@@ -66,15 +66,29 @@ const Game = ({ game, currentPlayer, dispatch }) => {
     textAlign: "center"
   }
   const scoreBoardStyle = {
+    marginTop: "3%",
     backgroundColor: "black",
     color: "orange",
     fontStyle: "",//digital clock? scoreboard?
     borderStyle: "solid",
     borderColor: "white",//?
-    borderWidth: "5px"//?
+    borderWidth: "10px",//?
+    textAlign: "center"
   }
 
   return (
+  <div>
+    <div className = "container">
+        <div className= "row" >
+          <div className="col-xs-4">
+            <ul>{ leaders.map(function(person, index){
+              return <li key={ index }>{person.user+" "+"scored "+person.score+" "+"points"}</li>
+            }) }</ul>
+          </div>
+          <div className = "col-xs-4">
+          </div>
+        </div>
+    </div>
     <div className = "game">
       <div className = "col-xs-12" style = { backgroundStyle }>
         <div className = "row">
@@ -122,7 +136,20 @@ const Game = ({ game, currentPlayer, dispatch }) => {
                     size = '4x'
                     spin
                   /></div>
-          <div className = "col-xs-4">
+          <div className = "col-xs-1">
+          </div>
+          <div className = "col-xs-2" style = { scoreBoardStyle }>
+            <div>
+              <div>
+                <h5>Total Shots:{ game.total }</h5>
+              </div>
+              <h5>Total Made: { game.made }</h5>
+              <h5>Total Missed: { game.missed }</h5>
+              <h5>Total Points: { game.points }</h5>
+              <h5>Feild Goal: %{(((( game.made/game.total ))*100)||0).toFixed(0)}</h5>
+            </div>
+          </div>
+          <div className="col-xs-1">
           </div>
           <div className = "col-xs-1" data-toggle = "tooltip" title = {"Short-Right Two:"+" "+ "%"+(currentPlayer.shooting.shortRightTwo*100).toFixed(1)} style = { secondRowStyle } onClick = {() =>
           dispatch(shootTwo(currentPlayer.shooting.shortRightTwo))}><FontAwesome
@@ -219,24 +246,9 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           <div className = "col-xs-5">
           </div>
         </div>
-        <div className= "row" >
-          <div className="col-xs-4">
-            <ul>{ leaders.map(function(person, index){
-              return <li key={ index }>{person.user + person.score}</li>
-            }) }</ul>
-          </div>
-          <div className = "col-xs-4">
-          </div>
-          <div className= "col-xs-4" style = { scoreBoardStyle }>
-            <h3>Total Shots: { game.total }</h3>
-            <h3>Total Made: { game.made }</h3>
-            <h3>Total Missed: { game.missed }</h3>
-            <h3>Total Points: { game.points }</h3>
-            <h3>Feild Goal: %{(((( game.made/game.total ))*100)||0).toFixed(0)}</h3>
-          </div>
-        </div>
       </div>
     </div>
+  </div>
   )
 }
 

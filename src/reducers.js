@@ -16,15 +16,11 @@ function game(state = {},  action ) {
   let result
   let newLeaderboard
 
-  const newGame = () => {
-    if (state.points === 0) {
-      alert("New Game! Are you ready to shoot? pick your player!")
-    }
-  }
 
   const gameOver = () => {
     if (state.made + state.missed === 25) {
-      var user = prompt("Gameover. Please enter your name.")
+      var user = prompt("Gameover... Enter your name for the LEADERBOARD!!...")
+      alert('New Game! Are you ready to shoot? Pick a new player, or keep shooting with this one! Take 25 shots by clicking the basketballs on the court below. Each location represents the shooting percentage of your player from their best shooting season!')
       var score = newState.points
       newState.leaderboard = state.leaderboard.concat({user, score})
       newState.total = 0

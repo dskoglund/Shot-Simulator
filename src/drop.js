@@ -41,21 +41,28 @@ const Drop = ({ players, currentPlayer, dispatch }) => {
   return (
     <div>
       <div className = 'jumbotron' style= { jumboStyle }>
-        <div className  = "row">
-          <div className = "col-xs-12">
-            <div className = "selectPlayer">
-              <select style = { dropStyle } onChange = {(event) => {
-                let player = players[event.target.value]
-                dispatch(pickPlayer(player))
-              }}>
-              <option> Pick a Shooter!
-              </option>
-                { players.map(function(player, index) {
-                  return <option key={ index } value={ index }>{ player.name }</option>
-                })}
-              </select>
-            </div>
+      </div>
+      <div className  = "row">
+        <div className = "col-xs-3">
+        </div>
+        <div className = "col-xs-2">
+          <h4>Pick Here ---></h4>
+        </div>
+        <div className = "col-xs-2">
+          <div className = "selectPlayer">
+            <select style = { dropStyle } onChange = {(event) => {
+              let player = players[event.target.value]
+              dispatch(pickPlayer(player))
+            }}>
+            <option> Pick a Shooter!
+            </option>
+              { players.map(function(player, index) {
+                return <option key={ index } value={ index }>{ player.name }</option>
+              })}
+            </select>
           </div>
+        </div>
+        <div className = "col-xs-5">
         </div>
       </div>
       <div>
