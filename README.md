@@ -1,6 +1,6 @@
 # Shot-Simulator
-A game using advanced NBA stats from some of the best players to simulate that player's shot from multiple locations.
-Users take 25 shots from 14 locations with a player of their choice. They attempt to climb the rankings on the leaderboard.
+An arcade style game using advanced NBA stats from some of the best players to simulate that player's shot from multiple locations.
+Users take 25 shots from 14 possible locations with a player of their choice. As they shoot their score and shooting percentages are calculated live on a scoreboard. Sound effects add a more appealing user experience. They attempt to climb the rankings on the leaderboard with a high score.
 
 This site can be accessed locally with a terminal command "npm run serve" to localhost:4000 in the browser.
 
