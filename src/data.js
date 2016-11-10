@@ -1,6 +1,7 @@
 const players = [
   {
     id: 1,
+    image: 'Kobe.png',
     name: 'Kobe Bryant(MVP 2007-2008)',
     feildGoalPercent: '45.9%',
     pointsPerGame: '28.3 ppg',

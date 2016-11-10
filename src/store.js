@@ -145,7 +145,20 @@ const initialState = {
     missed: 0,
     points: 0,
     fire: 0,
-    leaderboard:[]
+    leaderboard:[
+      {user: 'ron',
+      score: '10'
+      },
+      {
+        user: 'dave',
+        score: '25'
+      },
+      {
+        user: 'tim',
+        score: '15'
+      }
+
+    ]
   },
   currentPlayer: {
     shooting: {}

@@ -62,7 +62,7 @@ function game(state = {},  action ) {
     newState.missed += 1
     newState.fire = 0
   }
-  console.log(action)
+
   switch (action.type) {
     case 'shootTwo':
       newState = Object.assign({}, state, { total: state.total += 1 })

@@ -65,29 +65,49 @@ const Game = ({ game, currentPlayer, dispatch }) => {
     marginTop: "10%",
     textAlign: "center"
   }
+  const fontFace = `
+    @font-face {
+      font-family: 'Digital';
+      src: url('public/digital-7.regular.ttf')
+    }
+  `
   const scoreBoardStyle = {
+    fontFamily: 'Digital',
     marginTop: "3%",
     backgroundColor: "black",
     color: "orange",
-    fontStyle: "",//digital clock? scoreboard?
-    borderStyle: "solid",
     borderColor: "white",//?
     borderWidth: "10px",//?
     textAlign: "center"
   }
+  const leaderBoardStyle = {
+    color:  "yellow",
+    backgroundColor: "blue",
+    borderStyle: "solid",
+    borderWidth: "medium",
+    borderColor: "white",
+    width: "100%",
+    textAlign: "center",
+    border: "none",
+    marginRight: 'auto',
+    marginLeft: 'auto'
+  }
+  const leaderBoard = {
+    width: '100%',
+    textAlign: 'center'
+  }
 
   return (
   <div>
-    <div className = "container">
-        <div className= "row" >
-          <div className="col-xs-4">
-            <ul>{ leaders.map(function(person, index){
-              return <li key={ index }>{person.user+" "+"scored "+person.score+" "+"points"}</li>
-            }) }</ul>
-          </div>
-          <div className = "col-xs-4">
-          </div>
-        </div>
+    <h4 style = { leaderBoard }>Leaderboard</h4>
+    <div style = { leaderBoardStyle } className= "col-xs-12" >
+      <div className="col-xs-4 col-xs-offset-4">
+        <ul>{ leaders.map(function(person, index){
+          return <h5 key={ index }>{person.user.toUpperCase()+" "+"Score:  "+person.score+" "+"pts"}</h5>
+        }) }</ul>
+      </div>
+      <div className = "col-xs-4">
+      </div>
     </div>
     <div className = "game">
       <div className = "col-xs-12" style = { backgroundStyle }>
@@ -96,7 +116,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch(shootThree(currentPlayer.shooting.leftCornerThree))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size =  '4x'
+                    size =  '3x'
                     spin
                   /></div>
           <div className = "col-xs-4">
@@ -105,7 +125,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch(shootTwo(currentPlayer.shooting.inPaintTwo))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-4">
@@ -113,7 +133,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           <div className = "col-xs-1" data-toggle = "tooltip" title = {"Right-Corner Three:"+" "+ "%"+(currentPlayer.shooting.rightCornerThree*100).toFixed(1)} style = { firstRowStyle } onClick = {() => dispatch((shootThree(currentPlayer.shooting.rightCornerThree)))}><FontAwesome
                     className ='fa fa-dribbble'
                     name ='ball'
-                    size ='4x'
+                    size ='3x'
                     spin
                   /></div>
         </div>
@@ -124,7 +144,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch(shootTwo(currentPlayer.shooting.midLeftTwo))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-1">
@@ -133,7 +153,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch(shootTwo(currentPlayer.shooting.shortLeftTwo))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-1">
@@ -155,7 +175,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch(shootTwo(currentPlayer.shooting.shortRightTwo))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-1">
@@ -164,7 +184,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch(shootTwo(currentPlayer.shooting.midRightTwo))}><FontAwesome
                     className ='fa fa-dribbble'
                     name ='ball'
-                    size ='4x'
+                    size ='3x'
                     spin
                   /></div>
         </div>
@@ -175,7 +195,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch((shootTwo(currentPlayer.shooting.freeThrowTwo)))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-5">
@@ -188,7 +208,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch((shootTwo(currentPlayer.shooting.midLeftElbowTwo)))}><FontAwesome
                     className ='fa fa-dribbble'
                     name ='ball'
-                    size ='4x'
+                    size ='3x'
                     spin
                   /></div>
           <div className = "col-xs-4">
@@ -196,7 +216,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           <div className = "col-xs-2" data-toggle = "tooltip" title = {"Right-Elbow Two:"+" "+ "%"+(currentPlayer.shooting.midRightElbowTwo*100).toFixed(1)} style = { fourthRowStyle } onClick = {() => dispatch((shootTwo(currentPlayer.shooting.midRightElbowTwo)))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name ='ball'
-                    size ='4x'
+                    size ='3x'
                     spin
                   /></div>
           <div className = "col-xs-2">
@@ -209,17 +229,18 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch((shootThree(currentPlayer.shooting.topLeftThree)))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-2">
           </div>
           <div className = "col-xs-4" data-toggle = "tooltip" title = {"Top-Key Two:"+" "+ "%"+(currentPlayer.shooting.topKeyTwo*100).toFixed(1)} style = { fifthRowStyle }
           onClick = {() =>
-          dispatch((shootTwo(currentPlayer.shooting.topKeyTwo)))}><FontAwesome
+          dispatch((shootTwo(currentPlayer.shooting.topKeyTwo)))}>
+          <FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-2">
@@ -228,7 +249,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           dispatch((shootThree(currentPlayer.shooting.topRightThree)))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size ='4x'
+                    size ='3x'
                     spin
                   /></div>
           <div className = 'col-xs-1'>
@@ -240,7 +261,7 @@ const Game = ({ game, currentPlayer, dispatch }) => {
           <div className = "col-xs-2" data-toggle = "tooltip" title = { "Top-Center Three:"+" "+ "%"+(currentPlayer.shooting.topCenterThree*100).toFixed(1)} style = { sixthRowStyle } onClick = {() => dispatch((shootThree(currentPlayer.shooting.topCenterThree)))}><FontAwesome
                     className = 'fa fa-dribbble'
                     name = 'ball'
-                    size = '4x'
+                    size = '3x'
                     spin
                   /></div>
           <div className = "col-xs-5">

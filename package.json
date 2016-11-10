@@ -8,7 +8,7 @@
     "serve": "webpack-dev-server"
   },
   "keywords": [],
-  "author": "Tim Davis",
+  "author": "David Skoglund",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "6.14.0",

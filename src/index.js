@@ -1,4 +1,3 @@
-console.log('test')
 const React = require('react');
 const ReactDOM = require('react-dom');
 const { render } = require('react-dom')
